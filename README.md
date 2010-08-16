@@ -6,7 +6,9 @@ dsl.rb is a small script (26 lines) to help create domain specific languages wit
 
 ## Install
 
-Until I setup the gem... just clone and play around with it.
+`gem update --system`
+`gem update`
+`gem install dsl`
 
 ## Quick Example
 
