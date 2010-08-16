@@ -10,12 +10,12 @@ end
 
 class User
   attr :name, :gender, :age
-  def initialize(&blk)
-    UserDSL.call(self, &blk)
-  end
+  dsl_method :edit => UserDSL
 end
 
-ryguy = User.new do
+ryguy = User.new 
+
+ryguy.edit do
   name 'Ryan Lewis'
   gender :male
   age 19

@@ -2,7 +2,6 @@
 
 class DSL  
   def self.call(parent, &blk)
-    # Create a new instance of the user's custom dsl class
     instance = new
     # Add all of the parents instance variables to the instance
     parent.instance_variables.each do |instance_variable|
@@ -21,12 +20,13 @@ end
 
 class Module
   def dsl_method(opts)
-    # Complain if the argument isnt't a hash
-    raise(TypeError) unless opts.is_a?(Hash) #!
+    # Complain if the argument isn't a hash
+    raise(TypeError) unless opts.is_a?(Hash)
     # For each dsl_method, define it in the class
     # The methods do not accept arguments, only blocks
     opts.each do |method, dsl_class|
       define_method(method) do |&blk|
+        raise(ArgumentError, "method #{method} requires a block") unless block_given?
         dsl_class.call(self, &blk)
       end
     end
