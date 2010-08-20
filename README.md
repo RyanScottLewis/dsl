@@ -46,6 +46,29 @@ When the block is closed, all of the instance variables are then transfered back
 
 Therefor, creating a Domain Specific Language is as easy as subclassing the `DSL` class. That's it!
 
+## Use with any block:
+
+To illustrate how to use with any block, The above example could be written like so:
+
+    require 'dsl'
+
+    class UserDSL < DSL
+      def name(n);   @name = n;   end
+      def gender(g); @gender = g; end
+      def age(a);    @age = a;    end
+    end
+
+    class User
+      attr :name, :gender, :age
+      def edit(&blk)
+        UserDSL.call(self, &blk)
+      end
+    end
+    
+The class method `call` takes a parent and a block. The parent that you give will get it's instance variables delegated to a new instance of your DSL class.
+
+You could easily delegate instance variables from another class instance other than `self`
+
 ## Copyright
 
 Copyright (c) 2010 Ryan Lewis. See LICENSE for details.
