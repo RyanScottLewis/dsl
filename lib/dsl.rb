@@ -26,7 +26,7 @@ class Module
     # The methods do not accept arguments, only blocks
     opts.each do |method, dsl_class|
       define_method(method) do |&blk|
-        raise(ArgumentError, "method #{method} requires a block") unless block_given?
+        raise(ArgumentError, "method #{method} requires a block") unless !!blk
         dsl_class.call(self, &blk)
       end
     end
