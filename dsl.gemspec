@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{dsl}
-  s.version = "0.1.3"
+  s.version = "0.1.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["c00lryguy"]
@@ -21,10 +21,13 @@ Gem::Specification.new do |s|
      "README.md",
      "Rakefile",
      "VERSION",
+     "dsl.gemspec",
      "examples/database.rb",
      "examples/user.rb",
      "examples/webapp.rb",
      "lib/dsl.rb",
+     "pkg/dsl-0.1.2.gem",
+     "pkg/dsl-0.1.3.gem",
      "test/helper.rb",
      "test/test_dsl.rb"
   ]
