@@ -17,7 +17,7 @@ class DSL
     end
   end
 end
- 
+
 class Module
   def dsl_method(opts)
     # Complain if the argument isn't a hash
