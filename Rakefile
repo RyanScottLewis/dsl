@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "dsl"
-    gem.summary = %Q{A small library for creating Domain Specific Languages (DSLs)}
-    gem.description = %Q{A small library for creating Domain Specific Languages (DSLs)}
+    gem.summary = "A small library for creating Domain Specific Languages (DSLs)"
+    gem.description = gem.summary
     gem.email = "c00lryguy@gmail.com"
     gem.homepage = "http://github.com/c00lryguy/dsl"
     gem.authors = ["c00lryguy"]
@@ -67,12 +67,3 @@ end
 
 task :default => :test
 
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
-
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "dsl #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
