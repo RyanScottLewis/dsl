@@ -15,6 +15,8 @@ class DSL
       value = instance.instance_variable_get(instance_variable)
       parent.instance_variable_set(instance_variable, value)
     end
+    # Return the parent for convenience
+    parent
   end
 end
  
