@@ -2,7 +2,7 @@
 
 ## Description
 
-dsl.rb is a small script (26 lines) to help create domain specific languages within Ruby.
+dsl.rb is a small script to help create domain specific languages within Ruby.
 
 ## Install
 
