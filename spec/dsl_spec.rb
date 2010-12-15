@@ -1,14 +1,22 @@
 require 'spec_helper'
 
-class ClassDSL < DSL
+class UserDSL < DSL
+	def name(n);   @name = n;   end
+	def gender(g); @gender = g; end
+	def age(a);    @age = a;    end
 end
 
 describe DSL, ".dsl_method"do
+	let(:user_klass) do
+		Class.new do
+      attr :name, :gender, :age
+      dsl_method :edit => UserDSL
+    end
+	end
+
 	it "only supports Hash for parameter" do
 		expect {
-			Class.new do
-				dsl_method :edit => ClassDSL
-			end
+			user_klass
 		}.to_not raise_error
 
 		expect { 
@@ -19,18 +27,11 @@ describe DSL, ".dsl_method"do
 	end
 	
 	it "creates the dsl method on calling class" do
-		klass = Class.new do
-			dsl_method :edit => ClassDSL
-		end
-
-		klass.new.should be_respond_to :edit
+		user_klass.new.should be_respond_to :edit
 	end
 
 	it "must to pass a block when calling dsl method" do
-		klass = Class.new do
-			dsl_method :edit => ClassDSL
-		end
-		obj = klass.new
+		obj = user_klass.new
 
 		expect {
 			obj.edit { }
