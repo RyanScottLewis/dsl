@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-class UserDSL < DSL
-	def name(n);   @name = n;   end
-	def gender(g); @gender = g; end
-	def age(a);    @age = a;    end
-end
-
-describe DSL, ".dsl_method"do
+describe DSL, do
+	class UserDSL < DSL
+		def name(n);   @name = n;   end
+		def gender(g); @gender = g; end
+		def age(a);    @age = a;    end
+	end
+	
 	let(:user_klass) do
 		Class.new do
       attr :name, :gender, :age
@@ -14,31 +14,47 @@ describe DSL, ".dsl_method"do
     end
 	end
 
-	it "only supports Hash for parameter" do
-		expect {
-			user_klass
-		}.to_not raise_error
+	describe ".dsl_method" do
+		it "only supports Hash for parameter" do
+			expect {
+				user_klass
+			}.to_not raise_error
 
-		expect { 
-			Class.new do
-				dsl_method :edit 
-			end
-		}.to raise_error(TypeError)
+			expect { 
+				Class.new do
+					dsl_method :edit 
+				end
+			}.to raise_error(TypeError)
+		end
+
+		it "creates the dsl method on calling class" do
+			user_klass.new.should be_respond_to :edit
+		end
 	end
 	
-	it "creates the dsl method on calling class" do
-		user_klass.new.should be_respond_to :edit
-	end
+	context "calling on dsl method" do
+		let(:user) { user_klass.new }
+	
+		it "must to pass a block when calling dsl method" do
+			expect {
+				user.edit { }
+			}.to_not raise_error
 
-	it "must to pass a block when calling dsl method" do
-		obj = user_klass.new
+			expect {
+				user.edit 
+			}.to raise_error
+		end
 
-		expect {
-			obj.edit { }
-		}.to_not raise_error
+		it "assigns values to instance variables" do
+			user.edit do
+				name "my name"
+				age 26
+				gender "M"
+			end
 
-		expect {
-			obj.edit 
-		}.to raise_error
+			user.name.should == "my name"
+			user.age.should == 26
+			user.gender.should == "M"
+		end
 	end
 end
