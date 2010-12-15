@@ -10,7 +10,7 @@ begin
     gem.email = "c00lryguy@gmail.com"
     gem.homepage = "http://github.com/c00lryguy/dsl"
     gem.authors = ["c00lryguy"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    gem.add_development_dependency "rspec", ">= 2.0.0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
@@ -18,11 +18,14 @@ rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
 
-require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
+begin
+  require 'rspec/core/rake_task'
+
+  RSpec::Core::RakeTask.new
+rescue LoadError
+  task :spec do
+    abort "Please run `gem install rspec` to install RSpec."
+  end
 end
 
 begin
@@ -37,8 +40,6 @@ rescue LoadError
     abort "RCov is not available. In order to run rcov, you must: sudo gem install spicycode-rcov"
   end
 end
-
-task :test => :check_dependencies
 
 begin
   require 'reek/adapters/rake_task'
@@ -65,5 +66,6 @@ rescue LoadError
   end
 end
 
-task :default => :test
+task :spec => :check_dependencies
+task :default => :spec
 

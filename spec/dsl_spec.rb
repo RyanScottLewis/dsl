@@ -35,14 +35,14 @@ describe DSL, do
 	context "calling on dsl method" do
 		let(:user) { user_klass.new }
 	
-		it "must to pass a block when calling dsl method" do
+		it "must pass a block when calling dsl method" do
 			expect {
 				user.edit { }
 			}.to_not raise_error
 
 			expect {
 				user.edit 
-			}.to raise_error
+			}.to raise_error(ArgumentError)
 		end
 
 		it "assigns values to instance variables" do
