@@ -7,8 +7,10 @@ dsl.rb is a small script to help create domain specific languages within Ruby.
 ## Install
 
 `gem update --system` 
+
 `gem update` 
-`gem install dsl` 
+
+`gem install dsl`
 
 ## Quick Example
 
