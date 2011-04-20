@@ -8,8 +8,8 @@ dsl.rb is a small script to help create domain specific languages within Ruby.
 
 > Undergoing a complete overhaul.
 > 
-> Old code WILL BREAK.
-> Current coe is UNSTABLE.
+> Old code WILL BREAK.  
+> Current code is UNSTABLE.  
 > You've been warned.
 
 ## Install
