@@ -14,7 +14,7 @@ dsl.rb is a small script to help create domain specific languages within Ruby.
 
 ## Quick Example
 
-    require 'dsl'
+    require 'dsl/import'
 
     class UserDSL < DSL
       def name(n);   @name = n;   end
@@ -38,7 +38,7 @@ dsl.rb is a small script to help create domain specific languages within Ruby.
     p ryguy
     # => #<User:0x00000001b6dc78 @name="Ryan Lewis", @gender=:male, @age=19>
 
-As you can see, simply requiring DSL adds the Module/Class method `dsl_method`, which defines a new instance method for your class that only accepts a block.
+As you can see, simply requiring `dsl/import` adds the Module/Class method `dsl_method`, which defines a new instance method for your class that only accepts a block.
 
 `dsl_method` only accepts a `Hash`, the key being the instance method name and the value being the DSL class the method will use.
 
