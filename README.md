@@ -1,10 +1,5 @@
 # DSL ![](http://stillmaintained.com/c00lryguy/dsl.png)
 
-> ## Notice
-> I'm looking for a new maintainer for my DSL gem. I've just got too much to handle right now and I feel like the gem is a great example of metaprogramming so I do not want to just let it die. 
->
-> If anybody is interested, contact me at c00lryguy@gmail.com
-
 ## Description
 
 dsl.rb is a small script to help create domain specific languages within Ruby.
