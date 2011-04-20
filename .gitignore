@@ -1,0 +1,4 @@
+.loadpath
+.project
+*.gemspec
+package\*
