@@ -4,6 +4,13 @@
 
 dsl.rb is a small script to help create domain specific languages within Ruby.
 
+### Notice
+
+> Undergoing a complete overhaul.
+> 
+> Old code WILL BREAK. you have been warned.
+
+
 ## Install
 
 `gem update --system` 
