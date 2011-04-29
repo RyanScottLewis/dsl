@@ -28,29 +28,47 @@ require 'base'
 #     }
 module DSL
   class ReturnHash
-    include Base
+    extend ReturnsResult
 
     def method_missing(meth, *args, &blk)
-      @result = {}
+      @result ||= {}
+      @result = {} unless @result.is_a?(Hash)
 
       if args.empty?
-        if block_given?
-          @result[meth] = blk
-        else
-          @result[meth] = nil
-        end
+        @result[meth] = block_given? ? blk : nil
+      elsif args.length == 1
+        @result[meth] = block_given? ? args << blk : args.first
       else
-        if args.length == 1
-          if block_given?
-            @result[meth] = [args.first, blk]
-          else
-            @result[meth] = args.first
-          end
-        else
-          @result[meth] = args
-          @result[meth] << blk if block_given?
-        end
+        @result[meth] = block_given? ? args << blk : args
       end
     end
   end
 end
+
+require 'pp'
+
+result = DSL::ReturnHash.call do
+  foo "foo"
+  zig :zag
+  bar
+  hello "aloha", "namaste", "hallo"
+  i_have_a_block {
+    puts "Yay"
+  }
+  i_have_a_block_and_args("i really do!", :its_true) {
+    puts "Yay"
+  }
+end
+
+pp result
+# {:foo=>"foo",
+#  :zig=>:zag,
+#  :bar=>nil,
+#  :hello=>["aloha", "namaste", "hallo"],
+#  :i_have_a_block=>
+#   #<Proc:0x0000>,
+#  :i_have_a_block_and_args=>
+#   ["i really do!",
+#    :its_true,
+#    #<Proc:0x0000>],
+#  :remove_instance_variable=>:@result}
