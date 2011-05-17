@@ -9,7 +9,7 @@ module DSL
     def call(&blk)
       instance_eval(&blk)
       result = instance_variable_get(:@result)
-      instance_variable_set(:@result, nil)
+      remove_instance_variable(:@result)
       result
     end
   end
