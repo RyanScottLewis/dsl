@@ -16,7 +16,6 @@ Helpers for the creation of Domain Specific Languages within your libraries and 
 
 ## Usage
 
-
 ### Simple
 
 ```ruby
@@ -42,12 +41,20 @@ end
 
 char = Character.new do
   name 'john doe'
+  p name # => "JOHN"
   age '21'
+  p age # => 21
 end
 
 char.name # => "JOHN"
 char.age # => 21
 ```
+
+`def_dsl_delegator` defines a method that accepts a variable number of arguments that will delegate to the parent.
+This will attempt to call the setter/getter method before attempting to access the instance variable directly.
+
+This way, any modifications you do to the instance variables in those methods will be used. Try adding a custom 
+getter to the example above and you will get the expected outcome.
 
 ## License
 
