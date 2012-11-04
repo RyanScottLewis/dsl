@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    dsl (0.1.4)
+    dsl (0.2.1)
       version (~> 1.0.0)
 
 GEM
@@ -45,7 +45,6 @@ GEM
     ruby-progressbar (1.0.2)
     slop (3.3.3)
     thor (0.16.0)
-    thoughtbot-shoulda (2.11.1)
     version (1.0.0)
 
 PLATFORMS
@@ -56,4 +55,3 @@ DEPENDENCIES
   dsl!
   fuubar
   guard-rspec
-  thoughtbot-shoulda

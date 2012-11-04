@@ -1,4 +1,8 @@
 require 'pathname'
+
+__LIB__ = Pathname.new(__FILE__).join('..', '..', 'lib').expand_path
+$:.unshift(__LIB__.to_s) unless $:.include?(__LIB__.to_s)
+
 require 'dsl'
 require 'bundler/setup'
 
