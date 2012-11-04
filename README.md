@@ -1,103 +1,84 @@
-# DSL ![](http://stillmaintained.com/c00lryguy/dsl.png)
+# DSL
 
 ## Description
 
-dsl.rb is a small script to help create domain specific languages within Ruby.
-
-### Notice
-
-> Undergoing a complete overhaul.
-> 
-> Old code WILL BREAK.  
-> Current code is UNSTABLE.  
-> You've been warned.
+Helpers for the creation of Domain Specific Languages within your libraries and gems.
 
 ## Install
 
-`gem update --system` 
+### Bundler
 
-`gem update` 
+`gem 'dsl'`
+
+### RubyGems
 
 `gem install dsl`
 
-## What is this?
+## Usage
 
-`dsl` is a set of classes for creating Domain Specific Languages. 
 
-Take the below for example: 
+### Simple
+
+```ruby
+class Character
+  class AttributeDSL < DSL
+    def_dsl :name, :age, :gender
+  end
+      
+  attr_reader :name, :age, :gender
+      
+  def initialize(&blk)
+    dsl = AttributeDSL.call(&blk)
+        
+    @name, @age, @gender = dsl.name, dsl.age, dsl.gender
     
-    require 'dsl'
+    # OR:
+    # @name, @age, @gender = dsl.to_h.values_at(:name, :age, :gender)
+  end
+end
 
-    my_obj = DSL::ReturnHash.call do
-      foo "bar"
-      this :that
+Character.new do
+  name 'John Doe'
+  age 21
+  gender :male
+end
+```
+
+### Advanced
+
+```ruby
+class Character
+  class AttributeDSL < DSL
+    def_dsl :name do
+      get do |value|
+        value.split(' ').first.capitalize # Only return the first name, even if the person has a last name as well
+      end
+      
+      set do |value| # The instance variable will be set to the result of this block
+        raise 'name must be a String' unless value.respond_to?(:to_s)
+        
+        value.to_s
+      end
     end
+  end
+  
+  attr_reader :name
+  
+  def initialize(&blk)
+    dsl = AttributeDSL.call(&blk)
+        
+    @name = dsl.name
     
-    pp my_obj # => { :foo => "bar", :this => :that }
+    # OR:
+    # @name, @age, @gender = dsl.to_h.values_at(:name, :age, :gender)
+  end
+end
 
-Harder example:
+Character.new do
+  name 1234 # Error: name must be a String
+end
+```
 
-    require 'dsl/return_hash'
+## License
 
-    class MyCoolDSL
-      def initialize(&blk)
-        vars = DSL::ReturnHash.call(&blk)
-        vars.each do |k, v|
-          instance_variable_set("@#{k}", v)
-          define_method(k) do
-            instance_variable_get("@#{k}")
-          end
-        end
-      end
-    end
-
-    my_obj = MyCoolDSL.new do
-      foo "bar"
-      this :that
-    end
-
-    p my_obj.foo # => "bar"
-
-Notice I've only required `dsl/return_hash` as we can only require 
-the class we need.
-
-Another example:
-
-    require 'dsl/delegate_instance_variables'
-    class User
-      class UserDSL < DSL::DelegateInstanceVariables
-        def name(val); @name = val; end
-        def age(val); @age = val; end
-      end
-
-      def initialize(&blk)
-        edit(&blk)
-      end
-      def edit(&blk)
-        class_with_instance_variables_to_delegate = self
-        UserDSL.call(class_with_instance_variables_to_delegate, &blk)
-      end
-    end
-
-    # Create a new User
-    my_user = User.new do
-      name "Ryan"
-      age 20
-    end
-
-    # Update the User's age
-    my_user.edit do
-      age 21
-    end
-
-The name of the class describes exactly what it will do. 
-When the method `call` is called on `UserDSL`, it will delegate 
-all of the given class's instance variables. Then it will `instance_eval` 
-the given block to our `UserDSL`.
-
-Check out the docs for examples. 
-Each class defined has at least 1 example in the docs.
-
-## Copyright
-
-Copyright (c) 2010 Ryan Lewis. See LICENSE for details.
+Copyright (c) 2010-2012 Ryan Lewis. See LICENSE for details.

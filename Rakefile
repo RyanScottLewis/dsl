@@ -1,22 +1,35 @@
-require 'rubygems'
-require 'rake'
+require 'rake/version_task'
+require 'rspec/core/rake_task'
+require 'rubygems/package_task'
+require 'pathname'
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "dsl"
-    gem.summary = "A small library for creating Domain Specific Languages (DSLs)"
-    gem.description = gem.summary
-    gem.email = "c00lryguy@gmail.com"
-    gem.homepage = "http://github.com/c00lryguy/dsl"
-    gem.authors = ["c00lryguy"]
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
-    # Include your dependencies below. Runtime dependencies are required when using your gem,
-    # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
-    #  gem.add_runtime_dependency 'jabber4r', '> 0.1'
-    #  gem.add_development_dependency 'rspec', '> 1.2.3'
-  end
-  Jeweler::RubygemsDotOrgTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
+spec = Gem::Specification.new do |s|
+  s.name         = 'dsl'
+  s.version      = Pathname.new(__FILE__).dirname.join('VERSION').read.strip
+  s.author       = 'Ryan Scott Lewis'
+  s.email        = 'ryan@rynet.us'
+  s.homepage     = "http://github.com/c00lryguy/#{s.name}"
+  s.summary      = 'Helpers for the creation of Domain Specific Languages within your libraries and gems.'
+  s.description  = 'Easily create DSLs for use within your projects!'
+  s.require_path = 'lib'
+  s.files        = `git ls-files`.lines.to_a.collect { |s| s.strip }
+  s.executables  = `git ls-files -- bin/*`.lines.to_a.collect { |s| File.basename(s.strip) }
+  
+  s.post_install_message = "NOTICE!\n\n  DSL 2.x.x is INCOMPATIBLE with DSL 1.x.x!\n\n"
+  
+  s.add_dependency 'version', '~> 1.0.0'
 end
+
+Rake::VersionTask.new do |t|
+  t.with_git_tag = true
+  t.with_gemspec = spec
+end
+
+RSpec::Core::RakeTask.new
+
+Gem::PackageTask.new(spec) do |t|
+  t.need_zip = false
+  t.need_tar = false
+end
+
+task :default => :spec
