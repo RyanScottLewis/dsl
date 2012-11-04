@@ -15,7 +15,7 @@ spec = Gem::Specification.new do |s|
   s.files        = `git ls-files`.lines.to_a.collect { |s| s.strip }
   s.executables  = `git ls-files -- bin/*`.lines.to_a.collect { |s| File.basename(s.strip) }
   
-  s.post_install_message = "NOTICE!\n\n  DSL 2.x.x is INCOMPATIBLE with DSL 1.x.x!\n\n"
+  s.post_install_message = "NOTICE!\n\n  DSL 0.2.x is INCOMPATIBLE with DSL 0.2.x!\n\n"
   
   s.add_dependency 'version', '~> 1.0.0'
 end

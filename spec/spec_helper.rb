@@ -1,5 +1,6 @@
 require 'pathname'
 require 'dsl'
+require 'bundler/setup'
 
 Bundler.require(:development)
 
