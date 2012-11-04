@@ -18,6 +18,10 @@ spec = Gem::Specification.new do |s|
   s.post_install_message = "NOTICE!\n\n  DSL 0.2.x is INCOMPATIBLE with DSL 0.2.x!\n\n"
   
   s.add_dependency 'version', '~> 1.0.0'
+  s.add_development_dependency 'rake', '~> 0.9'
+  s.add_development_dependency 'guard-rspec', '~> 2.1.1'
+  s.add_development_dependency 'fuubar', '~> 1.1'
+  s.add_development_dependency 'at', '~> 0.1.2'
 end
 
 Rake::VersionTask.new do |t|
