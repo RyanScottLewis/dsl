@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    dsl (0.2.1)
+    dsl (0.2.2)
       version (~> 1.0.0)
 
 GEM
@@ -33,6 +33,7 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.3.1)
+    rake (0.9.2.2)
     rspec (2.11.0)
       rspec-core (~> 2.11.0)
       rspec-expectations (~> 2.11.0)
@@ -51,7 +52,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  at
+  at (~> 0.1.2)
   dsl!
-  fuubar
-  guard-rspec
+  fuubar (~> 1.1)
+  guard-rspec (~> 2.1.1)
+  rake (~> 0.9)

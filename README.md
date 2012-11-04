@@ -1,4 +1,4 @@
-# DSL
+# DSL [![Build Status](https://secure.travis-ci.org/c00lryguy/dsl.png)](http://travis-ci.org/c00lryguy/dsl)
 
 ## Description
 
