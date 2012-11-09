@@ -22,12 +22,47 @@ Helpers for the creation of Domain Specific Languages within your libraries and 
 class Character
   
   class AttrDSL < DSL
+    def name(value=nil)
+      @parent.name = value unless value.nil?
+      
+      @parent.name
+    end
+  end
+  
+  attr_reader :name
+  
+  def initialize(&blk)
+    @dsl = AttrDSL.call(self, &blk)
+  end
+  
+  def name=(value)
+    @name = value.to_s.split(/\s+/).first.upcase
+  end
+  
+end
+
+char = Character.new do
+  name 'john doe'
+  p name # => "JOHN"
+end
+
+char.name # => "JOHN"
+```
+
+### DSL Delegator
+
+```ruby
+class Character
+  
+  class AttrDSL < DSL
     def_dsl_delegator :name, :age
   end
   
   def initialize(&blk)
     @dsl = AttrDSL.call(self, &blk)
   end
+  
+  attr_reader :name, :age
   
   def name=(value)
     @name = value.to_s.split(/\s+/).first.upcase
