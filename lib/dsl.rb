@@ -8,14 +8,15 @@ require 'core_ext/string/underscore'
 class DSL
   class << self
     
-    # If the last argument is a Hash, the keys will be transformed into an `underscore`d String, then into a Symbol.
-    # If the key does not start with an at (`@`) character, we will prepend one to it. This means you can set
-    # class variables as well by using `:@@class_iv`, if you /really/ wanted. `:foo` and `:@foo` are equivalent.
-    # Each key is then defined as an instance variable on the DSL instance with the object given as the value.
+    # If the last argument is **not** a Hash, then the *first* argument will be defined as `@parent` on the DSL instance.  
     # All other arguments will be passed to the `initialize` method of the DSL instance.
-    #
-    # If the last argument is not a Hash, then the /first/ argument will be defined as `@parent` on the DSL instance.
-    # All other arguments will be passed to the `initialize` method of the DSL instance.
+    # 
+    # If the last argument **is** a `Hash`, the keys will be transformed into an `underscore`'d String, then into a `Symbol`.  
+    # If the key does not start with an "at" (`@`) character, we will prepend one to it.  
+    # This means you can set class variables as well by using `:@@class_iv`, and `:foo` and `:@foo` are equivalent.
+    # 
+    # Each key is then defined as an instance variable on the `DSL` instance with the object given as the value.  
+    # All other arguments will be passed to the `initialize` method of the `DSL` instance.
     #
     # The block passed to this method will be instanced eval'd BEFORE initialize is called.
     # 
@@ -39,11 +40,9 @@ class DSL
       instance
     end
     
-    # If the last argument is a `Hash`, the keys will be transformed into an `underscore`'d String, then into a `Symbol`.  
-    # If the key does not start with an "at" (`@`) character, we will prepend one to it.  
-    # This means you can set class variables as well by using `:@@class_iv`, and `:foo` and `:@foo` are equivalent.  
-    # Each key is then defined as an instance variable on the `DSL` instance with the object given as the value.  
-    # All other arguments will be passed to the `initialize` method of the `DSL` instance.
+    # Defines a method that accepts a variable number of arguments that will delegate to the `@parent`.  
+    # This will attempt to call the setter/getter method before attempting to access the instance variable.  
+    # This way, any modifications you do to the instance variables in those methods will be used.
     def def_dsl_delegator(*method_names)
       target_name = method_names.first.to_s.start_with?(?@) ? method_names.shift : :@parent
       
