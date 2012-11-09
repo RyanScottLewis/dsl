@@ -112,7 +112,7 @@ class Character
   end
   
   def initialize(&blk)
-    @dsl = AttrDSL.call(self, &blk)
+    AttrDSL.call(self, &blk)
   end
   
   attr_reader :name, :age
