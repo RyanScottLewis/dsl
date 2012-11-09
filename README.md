@@ -16,7 +16,9 @@ Helpers for the creation of Domain Specific Languages within your libraries and 
 
 #### Simple
 
-If the last argument is not a Hash, then the /first/ argument will be defined as `@parent` on the DSL instance.  
+> From the docs:
+
+If the last argument is not a Hash, then the *first* argument will be defined as `@parent` on the DSL instance.  
 All other arguments will be passed to the `initialize` method of the DSL instance.
 
 ```ruby
@@ -51,11 +53,13 @@ char.name # => "JOHN"
 
 #### Advanced
 
-If the last argument is a Hash, the keys will be transformed into an `underscore`'d String, then into a Symbol.  
-If the key does not start with an "at" (`@`) character, we will prepend one to it. This means you can set
-class variables as well by using `:@@class_iv`, if you /really/ wanted. `:foo` and `:@foo` are equivalent.  
-Each key is then defined as an instance variable on the DSL instance with the object given as the value.  
-All other arguments will be passed to the `initialize` method of the DSL instance.
+> From the docs:
+
+If the last argument is a `Hash`, the keys will be transformed into an `underscore`'d String, then into a `Symbol`.  
+If the key does not start with an "at" (`@`) character, we will prepend one to it.  
+This means you can set class variables as well by using `:@@class_iv`, and `:foo` and `:@foo` are equivalent.  
+Each key is then defined as an instance variable on the `DSL` instance with the object given as the value.  
+All other arguments will be passed to the `initialize` method of the `DSL` instance.
 
 ```ruby
 class Character
