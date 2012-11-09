@@ -138,7 +138,7 @@ char.age # => 21
 
 #### Advanced
 
-When combined with the "Advanced" usage of `DSL.call`, you can easily create a very powerful DSL:
+When combined with the "Advanced" usage of `DSL.call`, you can easily create a powerful DSL:
 
 ```ruby
 class Character
