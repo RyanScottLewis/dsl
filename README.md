@@ -13,13 +13,14 @@ Helpers for the creation of Domain Specific Languages within your libraries and 
 ## Usage
 
 ### DSL.call
+<hr />
 
 #### Simple
 
 > From the docs:
 
-If the last argument is **not** a Hash, then the *first* argument will be defined as `@parent` on the DSL instance.  
-All other arguments will be passed to the `initialize` method of the DSL instance.
+If the last argument is **not** a Hash, then the *first* argument will be defined as `@parent` on the `DSL` instance.  
+All other arguments will be passed to the `initialize` method of the `DSL` instance.
 
 ```ruby
 class Character
@@ -57,7 +58,6 @@ char.name # => "JOHN"
 
 If the last argument **is** a `Hash`, the keys will be transformed into an `underscore`'d String, then into a `Symbol`.  
 If the key does not start with an "at" (`@`) character, we will prepend one to it.  
-This means you can set class variables as well by using `:@@class_iv`, and `:foo` and `:@foo` are equivalent.
 This means `:foo` and `:@foo` are equivalent and you can set class variables as well by using `:@@class_iv`.
 
 Each key is then defined as an instance variable on the `DSL` instance with the object given as the value.  
@@ -94,6 +94,7 @@ char.name # => "JOHN"
 ```
 
 ### DSL Delegator
+<hr />
 
 #### Simple
 

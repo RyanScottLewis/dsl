@@ -8,8 +8,8 @@ require 'core_ext/string/underscore'
 class DSL
   class << self
     
-    # If the last argument is **not** a Hash, then the *first* argument will be defined as `@parent` on the DSL instance.  
-    # All other arguments will be passed to the `initialize` method of the DSL instance.
+    # If the last argument is **not** a Hash, then the *first* argument will be defined as `@parent` on the `DSL` instance.  
+    # All other arguments will be passed to the `initialize` method of the `DSL` instance.
     # 
     # If the last argument **is** a `Hash`, the keys will be transformed into an `underscore`'d String, then into a `Symbol`.  
     # If the key does not start with an "at" (`@`) character, we will prepend one to it.  
