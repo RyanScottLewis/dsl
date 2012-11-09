@@ -20,10 +20,8 @@ Helpers for the creation of Domain Specific Languages within your libraries and 
 
 #### Simple
 
-From the docs:
-
-    If the last argument is not a Hash, then the /first/ argument will be defined as `@parent` on the DSL instance.
-    All other arguments will be passed to the `initialize` method of the DSL instance.
+If the last argument is not a Hash, then the /first/ argument will be defined as `@parent` on the DSL instance.  
+All other arguments will be passed to the `initialize` method of the DSL instance.
 
 ```ruby
 class Character
@@ -57,29 +55,27 @@ char.name # => "JOHN"
 
 #### Advanced
 
-From the docs:
-
-    If the last argument is a Hash, the keys will be transformed into an `underscore`d String, then into a Symbol.
-    If the key does not start with an at (`@`) character, we will prepend one to it. This means you can set
-    class variables as well by using `:@@class_iv`, if you /really/ wanted. `:foo` and `:@foo` are equivalent.
-    Each key is then defined as an instance variable on the DSL instance with the object given as the value.
-    All other arguments will be passed to the `initialize` method of the DSL instance.
+If the last argument is a Hash, the keys will be transformed into an `underscore`d String, then into a Symbol.  
+If the key does not start with an at (`@`) character, we will prepend one to it. This means you can set
+class variables as well by using `:@@class_iv`, if you /really/ wanted. `:foo` and `:@foo` are equivalent.  
+Each key is then defined as an instance variable on the DSL instance with the object given as the value.  
+All other arguments will be passed to the `initialize` method of the DSL instance.
 
 ```ruby
 class Character
   
   class AttrDSL < DSL
     def name(value=nil)
-      @parent.name = value unless value.nil?
+      @character.name = value unless value.nil?
       
-      @parent.name
+      @character.name
     end
   end
   
   attr_reader :name
   
   def initialize(&blk)
-    @dsl = AttrDSL.call(self, &blk)
+    AttrDSL.call(character: self, &blk)
   end
   
   def name=(value)
@@ -90,13 +86,18 @@ end
 
 char = Character.new do
   name 'john doe'
-  p name # => "JOHN"
 end
 
 char.name # => "JOHN"
 ```
 
 ### DSL Delegator
+
+#### Simple
+
+Defines a method that accepts a variable number of arguments that will delegate to the parent.  
+This will attempt to call the setter/getter method before attempting to access the instance variable.  
+This way, any modifications you do to the instance variables in those methods will be used.
 
 ```ruby
 class Character
@@ -123,19 +124,16 @@ end
 
 char = Character.new do
   name 'john doe'
-  p name # => "JOHN"
   age '21'
-  p age # => 21
 end
 
 char.name # => "JOHN"
 char.age # => 21
 ```
 
-`def_dsl_delegator` defines a method that accepts a variable number of arguments that will delegate to the parent.
+#### Advanced
 
-
-### DSL Delegator Advanced
+When combined with the "Advanced" usage of `DSL.call`, you can easily create a very powerful DSL:
 
 ```ruby
 class Character

@@ -39,11 +39,9 @@ class DSL
       instance
     end
     
-    # Defines a method that accepts a variable number of arguments
-    # that will delegate to the parent.
-    # This will attempt to call the setter/getter method before attempting to
-    # access the instance variable. This way, any modifications you do to the 
-    # instance variables in those methods will be used.
+    # Defines a method that accepts a variable number of arguments that will delegate to the parent.
+    # This will attempt to call the setter/getter method before attempting to access the instance variable.
+    # This way, any modifications you do to the instance variables in those methods will be used.
     def def_dsl_delegator(*method_names)
       target_name = method_names.first.to_s.start_with?(?@) ? method_names.shift : :@parent
       
