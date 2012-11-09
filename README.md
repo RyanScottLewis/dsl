@@ -16,7 +16,54 @@ Helpers for the creation of Domain Specific Languages within your libraries and 
 
 ## Usage
 
-### Simple
+### `DSL.call`
+
+#### Simple
+
+From the docs:
+
+    If the last argument is not a Hash, then the /first/ argument will be defined as `@parent` on the DSL instance.
+    All other arguments will be passed to the `initialize` method of the DSL instance.
+
+```ruby
+class Character
+  
+  class AttrDSL < DSL
+    def name(value=nil)
+      @parent.name = value unless value.nil?
+      
+      @parent.name
+    end
+  end
+  
+  attr_reader :name
+  
+  def initialize(&blk)
+    AttrDSL.call(self, &blk)
+  end
+  
+  def name=(value)
+    @name = value.to_s.split(/\s+/).first.upcase
+  end
+  
+end
+
+char = Character.new do
+  name 'john doe'
+end
+
+char.name # => "JOHN"
+```
+
+#### Advanced
+
+From the docs:
+
+    If the last argument is a Hash, the keys will be transformed into an `underscore`d String, then into a Symbol.
+    If the key does not start with an at (`@`) character, we will prepend one to it. This means you can set
+    class variables as well by using `:@@class_iv`, if you /really/ wanted. `:foo` and `:@foo` are equivalent.
+    Each key is then defined as an instance variable on the DSL instance with the object given as the value.
+    All other arguments will be passed to the `initialize` method of the DSL instance.
 
 ```ruby
 class Character
@@ -86,10 +133,70 @@ char.age # => 21
 ```
 
 `def_dsl_delegator` defines a method that accepts a variable number of arguments that will delegate to the parent.
-This will attempt to call the setter/getter method before attempting to access the instance variable directly.
 
-This way, any modifications you do to the instance variables in those methods will be used. Try adding a custom 
-getter to the example above and you will get the expected outcome.
+
+### DSL Delegator Advanced
+
+```ruby
+class Character
+  
+  class Stats
+    def speed
+      @speed ||= 10
+    end
+    
+    def strength
+      @strength ||= 10
+    end
+    
+    def speed=(value)
+      @speed = value.to_i
+    end
+    
+    def strength=(value)
+      @strength = value.to_i
+    end
+  end
+  
+  class DSL < ::DSL
+    def_dsl_delegator :@character, :name, :age
+    def_dsl_delegator :@stats, :speed, :strength
+  end
+  
+  attr_reader :name, :age
+  
+  def initialize(&blk)
+    @stats = Stats.new
+    
+    update(&blk) if block_given?
+  end
+  
+  def update(&blk)
+    DSL.call(character: self, stats: @stats, &blk)
+  end
+  
+  def name=(value)
+    @name = value.to_s.split(/\s+/).first.upcase
+  end
+  
+  def age=(value)
+    @age = value.to_i
+  end
+  
+end
+
+char = Character.new do
+  name 'john doe'
+  age '21'
+  speed :15
+  strength 50.2
+end
+
+char.name # => "JOHN"
+char.age # => 21
+char.stats.speed # => 15
+char.stats.strength # => 50
+```
 
 ## License
 

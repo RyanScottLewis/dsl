@@ -42,7 +42,6 @@ describe CharacterWithAttrReader do
       subject.at.dsl.age.should == 21
     end
   end
-  
 end
 
 describe CharacterWithAttrWriter do
@@ -57,6 +56,29 @@ describe CharacterWithAttrWriter do
     it "should have instance variables set correctly" do
       subject.at.name.should == 'JOHN'
       subject.at.age.should == 21
+    end
+  end
+  
+  context "DSL" do
+    it "should have attr readers set correctly" do
+      subject.at.dsl.name.should == 'JOHN'
+      subject.at.dsl.age.should == 21
+    end
+  end
+end
+
+describe CharacterWithStatsAndAttrReader do
+  subject do
+    CharacterWithStatsAndAttrReader.new do
+      name 'John Doe'
+      age '21'
+    end
+  end
+  
+  context "Subject" do
+    it "should have instance variables set correctly" do
+      subject.at.stats.at.name.should == 'John Doe'
+      subject.at.stats.at.age.should == '21'
     end
   end
   
